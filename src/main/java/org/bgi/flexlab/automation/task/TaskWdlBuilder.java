@@ -50,15 +50,16 @@ public class TaskWdlBuilder {
                 taskContent.append(SPACE_SIZE).append("=").append(SPACE_SIZE);
 
                 Object defaultValue = parameter.get(key).getDefaultValue();
-                if(wdlDataType.startsWith("Int")){
-                    taskContent.append(Integer.parseInt(defaultValue.toString()));
-                }else if(wdlDataType.startsWith("Float"))
+                if(wdlDataType.startsWith("Int"))
+                    taskContent.append((int)Double.parseDouble(defaultValue.toString()));
+                else if(wdlDataType.startsWith("Float"))
                     taskContent.append(Float.parseFloat(defaultValue.toString()));
                 else if(wdlDataType.startsWith("Boolean"))
                     taskContent.append(Boolean.parseBoolean(defaultValue.toString()));
+                else if(wdlDataType.startsWith("String") || wdlDataType.startsWith("File"))
+                    taskContent.append('"').append(String.valueOf(defaultValue)).append('"');
                 else
                     taskContent.append(String.valueOf(defaultValue));
-
                 taskContent.append('\n');
             }
         }
@@ -67,7 +68,7 @@ public class TaskWdlBuilder {
         taskContent.append("\n").append(INDENT_SIZE).append("command {\n");
         taskContent.append(INDENT_SIZE2);
         taskContent.append(task.getCommand());
-        taskContent.append(INDENT_SIZE).append("}\n");
+        taskContent.append('\n').append(INDENT_SIZE).append("}\n");
 
         // output section
         taskContent.append("\n").append(INDENT_SIZE).append("output {\n");
@@ -84,7 +85,7 @@ public class TaskWdlBuilder {
         taskContent.append("\n").append(INDENT_SIZE).append("runtime {\n");
         if(task.getBackends() != null && !task.getBackends().equals("")){
             taskContent.append(INDENT_SIZE2);
-            taskContent.append("backends :").append(SPACE_SIZE).append(task.getBackends());
+            taskContent.append("backends :").append(SPACE_SIZE).append('"').append(task.getBackends()).append('"');
             taskContent.append('\n');
         }
         if(task.getMaxRetries() != -1){

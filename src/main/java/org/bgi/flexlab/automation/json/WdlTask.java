@@ -8,14 +8,14 @@ public class WdlTask {
     private final String version;
     private final String backends;
     private final int maxRetries;
-    private final int continueOnReturnCode;
+    private final String continueOnReturnCode;
     private final boolean failOnStderr;
     private final HashMap<String, WdlParameter> parameter;
     private final String command;
     private final HashMap<String, WdlOutput> output;
 
     public WdlTask(String taskName, String description, String version, String backends, int maxRetries,
-                   int continueOnReturnCode, boolean failOnStderr, HashMap<String, WdlParameter> parameter,
+                   String continueOnReturnCode, boolean failOnStderr, HashMap<String, WdlParameter> parameter,
                    String command, HashMap<String, WdlOutput> output) {
         this.taskName = taskName;
         this.description = description;
@@ -49,7 +49,7 @@ public class WdlTask {
         return maxRetries;
     }
 
-    public int getContinueOnReturnCode() {
+    public String getContinueOnReturnCode() {
         return continueOnReturnCode;
     }
 

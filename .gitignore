@@ -2,3 +2,5 @@
 .idea
 
 automation.iml
+
+*.class
